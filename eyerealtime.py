@@ -1,4 +1,8 @@
-import time
+import logging
+from scapy.all import sniff, IP, TCP, UDP
+
+# Set up logging
+logging.basicConfig(filename='network_traffic.log', level=logging.INFO)
 
 def process_packet(packet):
     if packet.haslayer(IP):
@@ -21,4 +25,5 @@ def process_packet(packet):
             print(f"Potential port scan detected from {ip_layer.src}")
             logging.warning(f"Potential port scan detected from {ip_layer.src}")
 
+print("Starting network traffic monitor...")
 sniff(prn=process_packet, store=False)
