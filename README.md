@@ -7,4 +7,4 @@ pip install scapy
 
 # future api auth detection etc coming. 
 
-python!
+python! sudo priveledgaes needed for this to work.
