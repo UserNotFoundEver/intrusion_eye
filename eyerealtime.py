@@ -1,10 +1,11 @@
 import logging
 from scapy.all import sniff, IP, TCP, UDP
 
-# Set up logging
+# Set up logging - fixed july 29
 logging.basicConfig(filename='network_traffic.log', level=logging.INFO)
 
 def process_packet(packet):
+    tcp_layer = None  # Initialize tcp_layer to avoid UnboundLocalError
     if packet.haslayer(IP):
         ip_layer = packet[IP]
         log_msg = f"[IP] {ip_layer.src} -> {ip_layer.dst}"
@@ -21,7 +22,7 @@ def process_packet(packet):
         logging.info(log_msg)
 
         # Simple port scan detection
-        if tcp_layer.sport < 1024 or tcp_layer.dport < 1024:
+        if tcp_layer and (tcp_layer.sport < 1024 or tcp_layer.dport < 1024):
             print(f"Potential port scan detected from {ip_layer.src}")
             logging.warning(f"Potential port scan detected from {ip_layer.src}")
 
